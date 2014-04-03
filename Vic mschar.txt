@@ -144,7 +144,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     /*
      * Start of Custom Feature
      */
-    //All custom shit declare here
+    // All custom shit declare here
     private int reborns, apstorage;
     private int entryNumber = 0, progress = 0;
     private int rarenx, jqpoints, side, apbank, hardcore;
@@ -169,7 +169,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             inventory[type.ordinal()] = new MapleInventory(type);
         }
         quests = new LinkedHashMap<MapleQuest, MapleQuestStatus>(); // Stupid erev quest.
-        skills = new LinkedHashMap<Skill, SkillEntry>(); //Stupid UAs.
+        skills = new LinkedHashMap<Skill, SkillEntry>(); // Stupid UAs.
         stats = new PlayerStats();
         innerSkills = new LinkedList<InnerSkillValueHolder>();
         azwanShopList = null;
@@ -247,7 +247,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             regrocks = new int[5];
             hyperrocks = new int[13];
             imps = new MapleImp[3];
-            clones = new WeakReference[5]; //for now
+            clones = new WeakReference[5]; // For now
             for (int i = 0; i < clones.length; i++) {
                 clones[i] = new WeakReference<MapleCharacter>(null);
             }
@@ -256,7 +256,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             effects = new ConcurrentEnumMap<MapleBuffStat, MapleBuffStatValueHolder>(MapleBuffStat.class);
             coolDowns = new LinkedHashMap<Integer, MapleCoolDownValueHolder>();
             diseases = new ConcurrentEnumMap<MapleDisease, MapleDiseaseValueHolder>(MapleDisease.class);
-            inst = new AtomicInteger(0);// 1 = NPC/ Quest, 2 = Duey, 3 = Hired Merch store, 4 = Storage
+            inst = new AtomicInteger(0);// 1 = NPC / Quest, 2 = Duey, 3 = Hired Merch store, 4 = Storage
             insd = new AtomicInteger(-1);
             keylayout = new MapleKeyLayout();
             doors = new ArrayList<MapleDoor>();
@@ -294,7 +294,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ret.buddylist = new BuddyList((byte) 20);
 
         ret.stats.str = 12;
-        ret.stats.dex = 5;
+        ret.stats.dex = 4;
         ret.stats.int_ = 4;
         ret.stats.luk = 4;
         ret.stats.maxhp = 50;
@@ -461,8 +461,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         if (isChannel) {
             final MapleMapFactory mapFactory = ChannelServer.getInstance(client.getChannel()).getMapFactory();
             ret.map = mapFactory.getMap(ret.mapid);
-            if (ret.map == null) { //char is on a map that doesn't exist warp it to spinel forest
-                ret.map = mapFactory.getMap(950000100);
+            if (ret.map == null) { // Char is on a map that doesn't exist warp it to spinel forest
+                ret.map = mapFactory.getMap(100000000);
             } else {
                 if (ret.map.getForcedReturnId() != 999999999 && ret.map.getForcedReturnMap() != null) {
                     ret.map = ret.map.getForcedReturnMap();
@@ -470,7 +470,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
             MaplePortal portal = ret.map.getPortal(ret.initialSpawnPoint);
             if (portal == null) {
-                portal = ret.map.getPortal(0); // char is on a spawnpoint that doesn't exist - select the first spawnpoint instead
+                portal = ret.map.getPortal(0); // Char is on a spawnpoint that doesn't exist - select the first spawnpoint instead
                 ret.initialSpawnPoint = 0;
             }
             ret.setPosition(portal.getPosition());
@@ -655,12 +655,12 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 ret.anticheat = new CheatTracker(ret);
                 MapleMapFactory mapFactory = ChannelServer.getInstance(client.getChannel()).getMapFactory();
                 ret.map = mapFactory.getMap(ret.mapid);
-                if (ret.map == null) { //char is on a map that doesn't exist warp it to spinel forest
-                    ret.map = mapFactory.getMap(950000100);
+                if (ret.map == null) { // Char is on a map that doesn't exist warp it to spinel forest
+                    ret.map = mapFactory.getMap(100000000);
                 }
                 MaplePortal portal = ret.map.getPortal(ret.initialSpawnPoint);
                 if (portal == null) {
-                    portal = ret.map.getPortal(0); // char is on a spawnpoint that doesn't exist - select the first spawnpoint instead
+                    portal = ret.map.getPortal(0); // Char is on a spawnpoint that doesn't exist - select the first spawnpoint instead
                     ret.initialSpawnPoint = 0;
                 }
                 ret.setPosition(portal.getPosition());
@@ -713,9 +713,9 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             rs.close();
             ps.close();
 
-            if (cads != null) { // so that we load only once.
+            if (cads != null) { // So that we load only once.
                 ret.characterCard.setCards(cads);
-            } else { // load
+            } else { // Load
                 ret.characterCard.loadCards(client, channelserver);
             }
 
@@ -728,10 +728,10 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 final int id = rs.getInt("quest");
                 final MapleQuest q = MapleQuest.getInstance(id);
                 final byte stat = rs.getByte("status");
-                if ((stat == 1 || stat == 2) && channelserver && (q == null || q.isBlocked())) { //bigbang
+                if ((stat == 1 || stat == 2) && channelserver && (q == null || q.isBlocked())) { // Bigbang
                     continue;
                 }
-                if (stat == 1 && channelserver && !q.canStart(ret, null)) { //bigbang
+                if (stat == 1 && channelserver && !q.canStart(ret, null)) { // Bigbang
                     continue;
                 }
                 final MapleQuestStatus status = new MapleQuestStatus(q, stat);
@@ -846,7 +846,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                             msl = (byte) skil.getMaxLevel();
                         }
                         ret.skills.put(skil, new SkillEntry(skl, msl, rs.getLong("expiration")));
-                    } else if (skil == null) { //doesnt. exist. e.g. bb
+                    } else if (skil == null) { // Doesn't. exist. e.g. bb
                         if (!GameConstants.isBeginnerJob(skid / 10000) && skid / 10000 != 900 && skid / 10000 != 800 && skid / 10000 != 9000) {
                             ret.remainingSp[GameConstants.getSkillBookForSkill(skid)] += skl;
                         }
@@ -855,7 +855,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 rs.close();
                 ps.close();
 
-                ret.expirationTask(false, true); //do it now
+                ret.expirationTask(false, true); // Do it now
 
                 // Bless of Fairy handling
                 ps = con.prepareStatement("SELECT * FROM characters WHERE accountid = ? ORDER BY level DESC");
@@ -1109,7 +1109,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
         } catch (SQLException ess) {
             ess.printStackTrace();
-            System.out.println("Failed to load character..");
+            System.out.println("Failed to load character.");
             FileoutputUtil.outputFileError(FileoutputUtil.PacketEx_Log, ess);
         } finally {
             try {
@@ -1185,12 +1185,12 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             if (db < 0 || db > 10) {
                 db = 0;
             }
-            ps.setInt(18, db == 2 ? 3000600 : type.map); //TODO fix jett, db tutorials
-            ps.setInt(19, chr.meso); // Meso
+            ps.setInt(18, db == 2 ? 3000600 : type.map); // TODO: Fix jett, db tutorials
+            ps.setInt(19, chr.meso); // Mesos
             ps.setInt(20, -1); // Party
             ps.setByte(21, chr.buddylist.getCapacity()); // Buddylist
             ps.setString(22, "-1,-1,-1");
-            ps.setInt(23, db); //for now
+            ps.setInt(23, db); // For now
             ps.setInt(24, chr.elf);
             ps.setInt(25, chr.jqpoints);
             ps.setLong(26, chr.mesosInBank);
@@ -1299,13 +1299,13 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         } catch (Exception e) {
             FileoutputUtil.outputFileError(FileoutputUtil.PacketEx_Log, e);
             e.printStackTrace();
-            System.err.println("[charsave] Error saving character data");
+            System.err.println("[Character Save] Error saving character data");
             try {
                 con.rollback();
             } catch (SQLException ex) {
                 FileoutputUtil.outputFileError(FileoutputUtil.PacketEx_Log, ex);
                 ex.printStackTrace();
-                System.err.println("[charsave] Error Rolling Back");
+                System.err.println("[Character Save] Error rolling back");
             }
         } finally {
             try {
@@ -1323,7 +1323,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             } catch (SQLException e) {
                 FileoutputUtil.outputFileError(FileoutputUtil.PacketEx_Log, e);
                 e.printStackTrace();
-                System.err.println("[charsave] Error going back to autocommit mode");
+                System.err.println("[Character Save] Error going back to autocommit mode");
             }
         }
     }
@@ -1529,7 +1529,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 ps.setInt(1, id);
 
                 for (final Entry<Skill, SkillEntry> skill : skills.entrySet()) {
-                    if (GameConstants.isApplicableSkill(skill.getKey().getId())) { //do not save additional skills
+                    if (GameConstants.isApplicableSkill(skill.getKey().getId())) { // Do not save additional skills
                         ps.setInt(2, skill.getKey().getId());
                         ps.setInt(3, skill.getValue().skillevel);
                         ps.setByte(4, skill.getValue().masterlevel);
@@ -1741,7 +1741,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             if (changed_extendedSlots) {
                 deleteWhereCharacterId(con, "DELETE FROM extendedSlots WHERE characterid = ?");
                 for (int i : extendedSlots) {
-                    if (getInventory(MapleInventoryType.ETC).findById(i) != null) { //just in case
+                    if (getInventory(MapleInventoryType.ETC).findById(i) != null) { // Just in case
                         ps = con.prepareStatement("INSERT INTO extendedSlots(characterid, itemId) VALUES(?, ?) ");
                         ps.setInt(1, getId());
                         ps.setInt(2, i);
@@ -1766,12 +1766,12 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         } catch (Exception e) {
             FileoutputUtil.outputFileError(FileoutputUtil.PacketEx_Log, e);
             e.printStackTrace();
-            System.err.println(MapleClient.getLogMessage(this, "[charsave] Error saving character data") + e);
+            System.err.println(MapleClient.getLogMessage(this, "[Character Save] Error saving character data") + e);
             try {
                 con.rollback();
             } catch (SQLException ex) {
                 FileoutputUtil.outputFileError(FileoutputUtil.PacketEx_Log, ex);
-                System.err.println(MapleClient.getLogMessage(this, "[charsave] Error Rolling Back") + e);
+                System.err.println(MapleClient.getLogMessage(this, "[Character Save] Error rolling back") + e);
             }
         } finally {
             try {
@@ -1788,7 +1788,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 con.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             } catch (SQLException e) {
                 FileoutputUtil.outputFileError(FileoutputUtil.PacketEx_Log, e);
-                System.err.println(MapleClient.getLogMessage(this, "[charsave] Error going back to autocommit mode") + e);
+                System.err.println(MapleClient.getLogMessage(this, "[Character Save] Error going back to autocommit mode") + e);
             }
         }
     }
@@ -1830,7 +1830,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public final void QuestInfoPacket(final tools.data.MaplePacketLittleEndianWriter mplew) {
-        mplew.writeShort(questinfo.size()); // // Party Quest data (quest needs to be added in the quests list)
+        mplew.writeShort(questinfo.size()); // Party Quest data (Quest needs to be added in the quests list)
 
         for (final Entry<Integer, String> q : questinfo.entrySet()) {
             mplew.writeShort(q.getKey());
@@ -2049,7 +2049,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public void startMapTimeLimitTask(int time, final MapleMap to) {
-        if (time <= 0) { //jail
+        if (time <= 0) { // Jail
             time = 1;
         }
         client.getSession().write(CField.getClock(time));
@@ -2060,7 +2060,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             public void run() {
                 if (ourMap.getId() == GameConstants.JAIL) {
                     getQuestNAdd(MapleQuest.getInstance(GameConstants.JAIL_TIME)).setCustomData(String.valueOf(System.currentTimeMillis()));
-                    getQuestNAdd(MapleQuest.getInstance(GameConstants.JAIL_QUEST)).setCustomData("0"); //release them!
+                    getQuestNAdd(MapleQuest.getInstance(GameConstants.JAIL_QUEST)).setCustomData("0"); // Release them!
                 }
                 changeMap(to, to.getPortal(0));
             }
@@ -2097,7 +2097,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         return lastFishingTime > 0 && lastFishingTime + GameConstants.getFishingTime(false, isGM()) < now;
     }
 
-    public void doFish(long now) {//FishingProcess
+    public void doFish(long now) {// Fishing Process
         lastFishingTime = now;
         if (client == null || client.getPlayer() == null || !client.isReceiving() || !GameConstants.isFishingMap(getMapId()) || chair <= 0) {
             cancelFishingTask();
@@ -2156,7 +2156,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             int value = statup.getValue().intValue();
             if (statup.getKey() == MapleBuffStat.MONSTER_RIDING) {
                 if (effect.getSourceId() == 5221006 && battleshipHP <= 0) {
-                    battleshipHP = maxBattleshipHP(effect.getSourceId()); //copy this as well
+                    battleshipHP = maxBattleshipHP(effect.getSourceId()); // Copy this as well
                 }
                 removeFamiliar();
             }
@@ -2164,8 +2164,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         }
         if (clonez > 0) {
             int cloneSize = Math.max(getNumClones(), getCloneSize());
-            if (clonez > cloneSize) { //how many clones to summon
-                for (int i = 0; i < clonez - cloneSize; i++) { //1-1=0
+            if (clonez > cloneSize) { // How many clones to summon
+                for (int i = 0; i < clonez - cloneSize; i++) { // 1-1=0
                     cloneLook();
                 }
             }
@@ -2206,7 +2206,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 if (stat == MapleBuffStat.SUMMON || stat == MapleBuffStat.PUPPET || stat == MapleBuffStat.REAPER || stat == MapleBuffStat.BEHOLDER || stat == MapleBuffStat.DAMAGE_BUFF || stat == MapleBuffStat.RAINING_MINES || stat == MapleBuffStat.ANGEL_ATK) {
                     final int summonId = mbsvh.effect.getSourceId();
                     final List<MapleSummon> toRemove = new ArrayList<MapleSummon>();
-                    visibleMapObjectsLock.writeLock().lock(); //We need to lock this later on anyway so do it now to prevent deadlocks.
+                    visibleMapObjectsLock.writeLock().lock(); // We need to lock this later on anyway so do it now to prevent deadlocks.
                     summonsLock.writeLock().lock();
                     try {
                         for (MapleSummon summon : summons) {
@@ -2222,7 +2222,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                         }
                     } finally {
                         summonsLock.writeLock().unlock();
-                        visibleMapObjectsLock.writeLock().unlock(); //lolwut
+                        visibleMapObjectsLock.writeLock().unlock(); // Lolwut
                     }
                     if (summonId == 3111005 || summonId == 3211005) {
                         cancelEffectFromBuffStat(MapleBuffStat.SPIRIT_LINK);
@@ -2309,7 +2309,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         } else if (effect.isAranCombo()) {
             combo = 0;
         }
-        // check if we are still logged in o.o
+        // Check if we are still logged in o.o
         cancelPlayerBuffs(buffstats, overwrite);
         if (!overwrite) {
             if (effect.isHide() && client.getChannelServer().getPlayerStorage().getCharacterById(this.getId()) != null) { //Wow this is so fking hacky...
@@ -2327,7 +2327,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 }
             }
         }
-        if (effect.getSourceId() == 35121013 && !overwrite) { //when siege 2 deactivates, missile re-activates
+        if (effect.getSourceId() == 35121013 && !overwrite) { // When siege 2 deactivates, missile re-activates
             SkillFactory.getSkill(35121005).getEffect(getTotalSkillLevel(35121005)).applyTo(this);
         }
         if (!clonez) {
@@ -2373,7 +2373,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 if (z.size() > 0) {
                     buffstats = z;
                 } else {
-                    return; //don't write anything
+                    return; // Don't write anything
                 }
             } else if (write) {
                 stats.recalcLocalStats(this);
@@ -2701,7 +2701,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public final String getBlessOfEmpressOrigin() {
         return this.BlessOfEmpress_Origin;
     }
-//the sp isnt fixed oh hold on
+// The sp isnt fixed oh hold on
 
     public final short getLevel() {
         return level;
@@ -2732,7 +2732,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public int getRemainingSp() {
-        return remainingSp[GameConstants.getSkillBook(job)]; //default
+        return remainingSp[GameConstants.getSkillBook(job)]; // Default
     }
 
     public int getRemainingSp(final int skillbook) {
@@ -2742,7 +2742,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public int[] getRemainingSps() {
         return remainingSp;
     }
-
+    
     public int getRemainingSpSize() {
         int ret = 0;
         for (int i = 0; i < remainingSp.length; i++) {
@@ -2800,7 +2800,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public void setDemonMarking(int mark) {
         this.demonMarking = mark;
     }
-
+    
     public int getElf() {
         return elf;
     }
@@ -2847,7 +2847,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public void setRemainingSp(int remainingSp) {
-        this.remainingSp[GameConstants.getSkillBook(job)] = remainingSp; //default
+        this.remainingSp[GameConstants.getSkillBook(job)] = remainingSp; // Default
     }
 
     public void setRemainingSp(int remainingSp, final int skillbook) {
@@ -2877,8 +2877,23 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public void addFame(int famechange) {
         this.fame += famechange;
         getTrait(MapleTraitType.charm).addLocalExp(famechange);
-        if (this.fame >= 50) {
+        if (this.fame >= 1) {
             finishAchievement(7);
+        }
+        if (this.fame >= 5) {
+            finishAchievement(49);
+        }
+        if (this.fame >= 10) {
+            finishAchievement(50);
+        }
+        if (this.fame >= 25) {
+            finishAchievement(51);
+        }
+        if (this.fame >= 50) {
+            finishAchievement(52);
+        }
+        if (this.fame >= 100) {
+            finishAchievement(53);
         }
     }
 
@@ -2912,7 +2927,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
         } else if (client.getChannelServer().getRace() == true && client.getChannelServer().getWaiting() == false) {
             changeMapInternal(to, pto.getPosition(), CField.getWarpToMap(to, pto.getId(), this), null);
-            dropMessage(0, "[Notice]: You are either cheating, or going the wrong direction. Your progress is not being counted.");
+            dropMessage(0, "[Notice] You are either cheating, or going the wrong direction. Your progress is not being counted.");
         } else {
             //End of Custom Race
             changeMapInternal(to, pto.getPosition(), CField.getWarpToMap(to, pto.getId(), this), null);
@@ -2960,7 +2975,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 }
             }
         }
-        if (pyramid && pyramidSubway != null) { //checks if they had pyramid before AND after changing
+        if (pyramid && pyramidSubway != null) { // Checks if they had pyramid before AND after changing
             pyramidSubway.onChangeMap(this, to.getId());
         }
         if (d) {
@@ -3010,7 +3025,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         if (getTrade() != null) {
             MapleTrade.cancelTrade(getTrade(), client, this);
         }
-        //antiMacro.reset(); // reset lie detector
+        //antiMacro.reset(); // Reset lie detector
     }
 
     public void changeJob(short newJob) {
@@ -3028,7 +3043,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                     if (GameConstants.isResist(job) && newJob != 3100 && newJob != 3200 && newJob != 3300 && newJob != 3400 && newJob != 3500) {
                         changeSp = 3;
                     }
-                    if (newJob == 2100) {//Aran 1st job
+                    if (newJob == 2100) {// Aran 1st job
                         changeSp = 4;
                     }
                     remainingSp[GameConstants.getSkillBook(newJob)] += changeSp;
@@ -3039,14 +3054,14 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                         remainingSp[GameConstants.getSkillBook(newJob)] += 2;
                     }
                 }
-                if (newJob % 10 >= 1 && level >= 70) { //3rd job or higher. lucky for evans who get 80, 100, 120, 160 ap...
+                if (newJob % 10 >= 1 && level >= 70) { // 3rd job or higher. lucky for evans who get 80, 100, 120, 160 ap...
                     remainingAp += 5;
                     updateSingleStat(MapleStat.AVAILABLEAP, remainingAp);
                 }
                 if (!isGM()) {
-                    //resetStatsByJob(true);
+                    resetStatsByJob(true);
                     if (!GameConstants.isEvan(newJob)) {
-                        if (getLevel() > (newJob == 200 ? 8 : 10) && newJob % 100 == 0 && (newJob % 1000) / 100 > 0) { //first job
+                        if (getLevel() > (newJob == 200 ? 8 : 10) && newJob % 100 == 0 && (newJob % 1000) / 100 > 0) { // First job
                             remainingSp[GameConstants.getSkillBook(newJob)] += 3 * (getLevel() - (newJob == 200 ? 8 : 10));
                         }
                     } else if (newJob == 2200) {
@@ -3057,7 +3072,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                         expandInventory((byte) 3, 4);
                         expandInventory((byte) 4, 4);
                         client.getSession().write(NPCPacket.getTutorialUI("UI/tutorial/evan/14/0"));
-                        dropMessage(5, "The baby Dragon hatched and appears to have something to tell you. Click the baby Dragon to start a conversation.");
+                        dropMessage(5, "The Baby Dragon hatched and appears to have something to tell you. Click the Baby Dragon to start a conversation.");
                     }
                 }
                 updateSingleStat(MapleStat.AVAILABLESP, 0); // we don't care the value here
@@ -3079,8 +3094,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                     maxhp += Randomizer.rand(300, 350);
                     break;
                 case 200: // Magician
-                case 2200: //evan
-                case 2210: //evan
+                case 2200: // Evan
+                case 2210: // Evan
                     maxmp += Randomizer.rand(100, 150);
                     break;
                 case 300: // Bowman
@@ -3122,9 +3137,9 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                     maxhp += Randomizer.rand(150, 200);
                     break;
                 case 800: // Manager
-                case 900: // GM
-                case 910: // SuperGM
-                    break; //No additions for now
+                case 900: // Game Master
+                case 910: // Super Game Master
+                    break; // No additions for now
             }
             if (maxhp >= 99999) {
                 maxhp = 99999;
@@ -3153,7 +3168,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 dragon = null;
             }
             baseSkills();
-            if (newJob >= 2200 && newJob <= 2218) { //make new
+            if (newJob >= 2200 && newJob <= 2218) { // Make new
                 if (getBuffedValue(MapleBuffStat.MONSTER_RIDING) != null) {
                     cancelBuffStats(MapleBuffStat.MONSTER_RIDING);
                 }
@@ -3206,16 +3221,16 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
             if (equip != null) {
                 MapleInventoryManipulator.replaceEquip(client, equip.getItemId(), (short) -10, (short) 1, "", null, 0, "Job Advancing on " + FileoutputUtil.CurrentReadable_Date());
-                equipChanged();//The Job advance replace equip
+                equipChanged();// The Job advance replace equip
             }
         } catch (Exception e) {
-            FileoutputUtil.outputFileError(FileoutputUtil.ScriptEx_Log, e); //all jobs throw errors :(
+            FileoutputUtil.outputFileError(FileoutputUtil.ScriptEx_Log, e); // All jobs throw errors :(
         }
     }
 
     public void baseSkills() {
         Map<Skill, SkillEntry> list = new HashMap<>();
-        if (GameConstants.getJobNumber(job) >= 3) { //third job.
+        if (GameConstants.getJobNumber(job) >= 3) { // Third job.
             List<Integer> base_skills = SkillFactory.getSkillsByJob(job);
             if (base_skills != null) {
                 for (int i : base_skills) {
@@ -3230,10 +3245,10 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
         }
         Skill skil;
-        if (job >= 2211 && job <= 2218) { // evan fix magic guard
+        if (job >= 2211 && job <= 2218) { // Evan fix magic guard
             skil = SkillFactory.getSkill(22111001);
             if (skil != null) {
-                if (getSkillLevel(skil) <= 0) { // no total
+                if (getSkillLevel(skil) <= 0) { // No total
                     list.put(skil, new SkillEntry((byte) 0, (byte) 20, -1));
                 }
             }
@@ -3243,7 +3258,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             for (int i : ss) {
                 skil = SkillFactory.getSkill(i);
                 if (skil != null) {
-                    if (getSkillLevel(skil) <= 0) { // no total
+                    if (getSkillLevel(skil) <= 0) { // No total
                         list.put(skil, new SkillEntry((byte) 0, (byte) 10, -1));
                     }
                 }
@@ -3254,27 +3269,27 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             for (int i : ss0) {
                 skil = SkillFactory.getSkill(i);
                 if (skil != null) {
-                    if (getSkillLevel(skil) <= 0) { // no total 
+                    if (getSkillLevel(skil) <= 0) { // No total 
                         list.put(skil, new SkillEntry((byte) 0, (byte) 10, -1));
                     }
                 }
             }
             skil = SkillFactory.getSkill(4311003);
             if (skil != null) {
-                if (getSkillLevel(skil) <= 0) { // no total 
+                if (getSkillLevel(skil) <= 0) { // No total 
                     list.put(skil, new SkillEntry((byte) -1, (byte) 5, -1));
                 }
             }
             skil = SkillFactory.getSkill(4321006);
             if (skil != null) {
-                if (getSkillLevel(skil) <= 0) { // no total 
+                if (getSkillLevel(skil) <= 0) { // No total 
                     list.put(skil, new SkillEntry((byte) -1, (byte) 5, -1));
                 }
             }
         }
         skil = SkillFactory.getSkill(4340010);
         if (skil != null) {
-            if (getSkillLevel(skil) <=0) { // no total
+            if (getSkillLevel(skil) <=0) { // No total
                 list.put(skil, new SkillEntry((byte) -1, (byte) 5, -1));
             }
         }
@@ -3283,7 +3298,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             for (int i : ss) {
                 skil = SkillFactory.getSkill(i);
                 if (skil != null) {
-                    if (getSkillLevel(skil) <= 0) { // no total
+                    if (getSkillLevel(skil) <= 0) { // No total
                         list.put(skil, new SkillEntry((byte) 1, (byte) 1, -1));
                     }
                 }
@@ -3295,20 +3310,20 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             for (int i : ss) {
                 skil = SkillFactory.getSkill(i);
                 if (skil != null) {
-                    if (getSkillLevel(skil) <= 0) { // no total
+                    if (getSkillLevel(skil) <= 0) { // No total
                         list.put(skil, new SkillEntry((byte) 1, (byte) 1, -1));
                     }
                 }
             }
             skil = SkillFactory.getSkill(20021181);
             if (skil != null) {
-                if (getSkillLevel(skil) <= 0) { // no total
+                if (getSkillLevel(skil) <= 0) { // No total
                     list.put(skil, new SkillEntry((byte) -1, (byte) 0, -1));
                 }
             }
             skil = SkillFactory.getSkill(20021166);
             if (skil != null) {
-                if (getSkillLevel(skil) <= 0) { // no total
+                if (getSkillLevel(skil) <= 0) { // No total
                     list.put(skil, new SkillEntry((byte) -1, (byte) 0, -1));
                 }
             }
@@ -3318,7 +3333,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             for (int i : ss1) {
                 skil = SkillFactory.getSkill(i);
                 if (skil != null) {
-                    if (getSkillLevel(skil) <= 0) { // no total
+                    if (getSkillLevel(skil) <= 0) { // No total
                         list.put(skil, new SkillEntry((byte) 1, (byte) 1, -1));
                     }
                 }
@@ -3327,7 +3342,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             for (int i : ss2) {
                 skil = SkillFactory.getSkill(i);
                 if (skil != null) {
-                    if (getSkillLevel(skil) <= 0) { // no total
+                    if (getSkillLevel(skil) <= 0) { // No total
                         list.put(skil, new SkillEntry((byte) -1, (byte) -1, -1));
                     }
                 }
@@ -3380,14 +3395,14 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public void gainSP(int sp) {
-        this.remainingSp[GameConstants.getSkillBook(job)] += sp; //default
-        updateSingleStat(MapleStat.AVAILABLESP, 0); // we don't care the value here
+        this.remainingSp[GameConstants.getSkillBook(job)] += sp; // Default
+        updateSingleStat(MapleStat.AVAILABLESP, 0); // We don't care the value here
         client.getSession().write(InfoPacket.getSPMsg((byte) sp, (short) job));
     }
 
     public void gainSP(int sp, final int skillbook) {
-        this.remainingSp[skillbook] += sp; //default
-        updateSingleStat(MapleStat.AVAILABLESP, 0); // we don't care the value here
+        this.remainingSp[skillbook] += sp; // Default
+        updateSingleStat(MapleStat.AVAILABLESP, 0); // We don't care the value here
         client.getSession().write(InfoPacket.getSPMsg((byte) sp, (short) 0));
     }
 
@@ -3395,15 +3410,15 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         for (int i = 0; i < remainingSp.length; i++) {
             this.remainingSp[i] = sp;
         }
-        updateSingleStat(MapleStat.AVAILABLESP, 0); // we don't care the value here
+        updateSingleStat(MapleStat.AVAILABLESP, 0); // We don't care the value here
     }
 
     public void resetAPSP() {
         resetSP(0);
         gainAp((short) -this.remainingAp);
     }
-
-    public List<Integer> getProfessions() {
+         
+        public List<Integer> getProfessions() {
         List<Integer> prof = new ArrayList<Integer>();
         for (int i = 9200; i <= 9204; i++) {
             if (getProfessionLevel(id * 10000) > 0) {
@@ -3418,7 +3433,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         if (ret <= 0) {
             return 0;
         }
-        return (byte) ((ret >>> 24) & 0xFF); //the last byte
+        return (byte) ((ret >>> 24) & 0xFF); // The last byte
     }
 
     public short getProfessionExp(int id) {
@@ -3426,7 +3441,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         if (ret <= 0) {
             return 0;
         }
-        return (short) (ret & 0xFFFF); //the first two byte
+        return (short) (ret & 0xFFFF); // The first two byte
     }
 
     public boolean addProfessionExp(int id, int expGain) {
@@ -3463,7 +3478,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         changeSingleSkillLevel(SkillFactory.getSkill(id), ((level & 0xFF) << 24) + (exp & 0xFFFF), (byte) 10);
     }
 
-    public void changeSingleSkillLevel(final Skill skill, int newLevel, byte newMasterlevel) { //1 month
+    public void changeSingleSkillLevel(final Skill skill, int newLevel, byte newMasterlevel) { // 1 month
         if (skill == null) {
             return;
         }
@@ -3473,7 +3488,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public void changeSingleSkillLevel(final Skill skill, int newLevel, byte newMasterlevel, long expiration) {
         final Map<Skill, SkillEntry> list = new HashMap<>();
         boolean hasRecovery = false, recalculate = false;
-        if (changeSkillData(skill, newLevel, newMasterlevel, expiration)) { // no loop, only 1
+        if (changeSkillData(skill, newLevel, newMasterlevel, expiration)) { // No loop, only 1
             list.put(skill, new SkillEntry(newLevel, newMasterlevel, expiration));
             if (GameConstants.isRecoveryIncSkill(skill.getId())) {
                 hasRecovery = true;
@@ -3482,7 +3497,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 recalculate = true;
             }
         }
-        if (list.isEmpty()) { // nothing is changed
+        if (list.isEmpty()) { // Nothing is changed
             return;
         }
         client.getSession().write(CWvsContext.updateSkills(list));
@@ -3506,7 +3521,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 }
             }
         }
-        if (list.isEmpty()) { // nothing is changed
+        if (list.isEmpty()) { // Nothing is changed
             return;
         }
         client.getSession().write(CWvsContext.updateSkills(list));
@@ -3531,7 +3546,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             if (skills.containsKey(skill)) {
                 skills.remove(skill);
             } else {
-                return false; //nothing happen
+                return false; // Nothing happen
             }
         } else {
             skills.put(skill, new SkillEntry(newLevel, newMasterlevel, expiration));
@@ -3539,7 +3554,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         return true;
     }
 
-    public void changeSkillLevel_Skip(final Map<Skill, SkillEntry> skill, final boolean write) { // only used for temporary skills (not saved into db)
+    public void changeSkillLevel_Skip(final Map<Skill, SkillEntry> skill, final boolean write) { // Only used for temporary skills (not saved into db)
         if (skill.isEmpty()) {
             return;
         }
@@ -3627,7 +3642,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
             this.updateSingleStat(MapleStat.EXP, this.exp);
         }
-        if (!stats.checkEquipDurabilitys(this, -100)) { //i guess this is how it works ?
+        if (!stats.checkEquipDurabilitys(this, -100)) { // I guess this is how it works?
             dropMessage(5, "An item has run out of durability but has no inventory room to go to.");
         } //lol
         if (pyramidSubway != null) {
@@ -3749,7 +3764,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             int prevexp = getExp();
             int needed = getNeededExp();
             if (total > 0) {
-                stats.checkEquipLevels(this, total); //gms like
+                stats.checkEquipLevels(this, total); // GMS like
             }
             if (level >= 250 || (GameConstants.isKOC(job) && level >= 250)) {
                 setExp(0);
@@ -3815,7 +3830,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             if (percentrep > 0) {
                 int sensen = World.Family.setRep(mfc.getFamilyId(), mfc.getSeniorId(), percentrep * 10, level, name);
                 if (sensen > 0) {
-                    World.Family.setRep(mfc.getFamilyId(), sensen, percentrep * 5, level, name); //and we stop here
+                    World.Family.setRep(mfc.getFamilyId(), sensen, percentrep * 5, level, name); // And we stop here
                 }
             }
         }
@@ -3834,11 +3849,11 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             total += partyinc;
         }
 
-        if (gain > 0 && total < gain) { //just in case
+        if (gain > 0 && total < gain) { // Just in case
             total = Integer.MAX_VALUE;
         }
         if (total > 0) {
-            stats.checkEquipLevels(this, total); //gms like
+            stats.checkEquipLevels(this, total); // GMS like
         }
         int needed = getNeededExp();
         if ((level >= 250 || (GameConstants.isKOC(job) && level >= 250)) && !isIntern()) {
@@ -3880,7 +3895,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 }
             }
             updateSingleStat(MapleStat.EXP, getExp());
-            if (show) { // still show the expgain even if it's not there
+            if (show) { // Still show the expgain even if it's not there
                 client.getSession().write(InfoPacket.GainEXP_Monster(gain, white, partyinc, Class_Bonus_EXP, Equipment_Bonus_EXP, Premium_Bonus_EXP));
             }
         }
@@ -3891,21 +3906,21 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         getInventory(type).addFromDB(item);
     }
 
-    public void forceReAddItem(Item item, MapleInventoryType type) { //used for stuff like durability, item exp/level, probably owner?
+    public void forceReAddItem(Item item, MapleInventoryType type) { // Used for stuff like durability, item exp/level, probably owner?
         forceReAddItem_NoUpdate(item, type);
         if (type != MapleInventoryType.UNDEFINED) {
             client.getSession().write(InventoryPacket.updateSpecialItemUse(item, type == MapleInventoryType.EQUIPPED ? (byte) 1 : type.getType(), this));
         }
     }
 
-    public void forceReAddItem_Flag(Item item, MapleInventoryType type) { //used for flags
+    public void forceReAddItem_Flag(Item item, MapleInventoryType type) { // Used for flags
         forceReAddItem_NoUpdate(item, type);
         if (type != MapleInventoryType.UNDEFINED) {
             client.getSession().write(InventoryPacket.updateSpecialItemUse_(item, type == MapleInventoryType.EQUIPPED ? (byte) 1 : type.getType(), this));
         }
     }
 
-    public void forceReAddItem_Book(Item item, MapleInventoryType type) { //used for mbook
+    public void forceReAddItem_Book(Item item, MapleInventoryType type) { // Used for mbook
         forceReAddItem_NoUpdate(item, type);
         if (type != MapleInventoryType.UNDEFINED) {
             client.getSession().write(CWvsContext.upgradeBook(item, this));
@@ -4051,7 +4066,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             changed_skills = true;
         }
         this.pendingSkills = skilz;
-        if (stat != null && stat.getCustomData() != null && Long.parseLong(stat.getCustomData()) < currenttime) { //expired bro
+        if (stat != null && stat.getCustomData() != null && Long.parseLong(stat.getCustomData()) < currenttime) { // Expired bro
             quests.remove(MapleQuest.getInstance(7830));
             quests.remove(MapleQuest.getInstance(GameConstants.PENDANT_SLOT));
         }
@@ -4108,28 +4123,43 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             return;
         }
         meso += gain;
-        if (meso >= 1000000) {
+        if (meso >= 1) {
             finishAchievement(31);
         }
-        if (meso >= 10000000) {
+        if (meso >= 10) {
             finishAchievement(32);
         }
-        if (meso >= 100000000) {
+        if (meso >= 100) {
             finishAchievement(33);
         }
-        if (meso >= 1000000000) {
+        if (meso >= 1000) {
             finishAchievement(34);
+        }
+        if (meso >= 10000) {
+            finishAchievement(42);
+        }
+        if (meso >= 100000) {
+            finishAchievement(43);
+        }
+        if (meso >= 1000000) {
+            finishAchievement(44);
+        }
+        if (meso >= 10000000) {
+            finishAchievement(45);
+        }
+        if (meso >= 100000000) {
+            finishAchievement(46);
+        }
+        if (meso >= 1000000000) {
+            finishAchievement(47);
+        }
+        if (meso == 2147483647) {
+            finishAchievement(48);
         }
         updateSingleStat(MapleStat.MESO, meso, false);
         client.getSession().write(CWvsContext.enableActions());
         if (show) {
             client.getSession().write(InfoPacket.showMesoGain(gain, inChat));
-        }
-        if (autococo && getMeso() >= 2000000000) {
-            if (!getInventory(MapleInventoryType.ETC).isFull()) {
-                gainMeso(-2000000000, true, true);
-                MapleInventoryManipulator.addById(getClient(), 4000136, (short) 1, "Bought Coconut from autococo");
-            }
         }
     }
 
@@ -4336,11 +4366,217 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         if (GameConstants.isKOC(job) && level < 250 && level > 10) {
             exp += getNeededExp() / 10;
         }
+       if (getLevel() >= 30) {
+            finishAchievement(90);
+        }
+       if (getLevel() >= 70) {
+            finishAchievement(91);
+        }
+       if (getLevel() >= 120) {
+            finishAchievement(92);
+        }
+       if (getLevel() >= 200) {
+            finishAchievement(93);
+        }
+       if (getReborns() >= 1) {
+            finishAchievement(2);
+        }
+       if (getReborns() >= 5) {
+            finishAchievement(3);
+        }
+       if (getReborns() >= 10) {
+            finishAchievement(4);
+        }
+       if (getReborns() >= 20) {
+            finishAchievement(5);
+        } 
+       if (getReborns() >= 40) {
+            finishAchievement(83);
+        }
+       if (getReborns() >= 70) {
+            finishAchievement(84);
+        }
+       if (getReborns() >= 120) {
+            finishAchievement(85);
+        }
+       if (getReborns() >= 190) {
+            finishAchievement(86);
+        } 
+       if (getReborns() >= 300) {
+            finishAchievement(87);
+        }
+       if (getReborns() >= 500) {
+            finishAchievement(88);
+        }
+       if (getReborns() >= 800) {
+            finishAchievement(89);
+        }
+       if (stats.getStr() >= 13) {
+            finishAchievement(94);
+        }
+       if (stats.getStr() >= 100) {
+            finishAchievement(95);
+        }
+       if (stats.getStr() >= 1000) {
+            finishAchievement(96);
+        }
+       if (stats.getStr() >= 10000) {
+            finishAchievement(97);
+        }
+       if (stats.getStr() >= 30000) {
+            finishAchievement(98);
+        }
+       if (stats.getDex() >= 5) {
+            finishAchievement(99);
+        }
+       if (stats.getDex() >= 100) {
+            finishAchievement(100);
+        }
+       if (stats.getDex() >= 1000) {
+            finishAchievement(101);
+        }
+       if (stats.getDex() >= 10000) {
+            finishAchievement(102);
+        }
+       if (stats.getDex() >= 30000) {
+            finishAchievement(103);
+        }
+       if (stats.getInt() >= 5) {
+            finishAchievement(104);
+        }
+       if (stats.getInt() >= 100) {
+            finishAchievement(105);
+        }
+       if (stats.getInt() >= 1000) {
+            finishAchievement(106);
+        }
+       if (stats.getInt() >= 10000) {
+            finishAchievement(107);
+        }
+       if (stats.getInt() >= 30000) {
+            finishAchievement(108);
+        }
+       if (stats.getLuk() >= 5) {
+            finishAchievement(109);
+        }
+       if (stats.getLuk() >= 100) {
+            finishAchievement(110);
+        }
+       if (stats.getLuk() >= 1000) {
+            finishAchievement(111);
+        }
+       if (stats.getLuk() >= 10000) {
+            finishAchievement(112);
+        }
+       if (stats.getLuk() >= 30000) {
+            finishAchievement(113);
+        }
+       if (getMaxHp() == 99999) {
+            finishAchievement(114);
+        }
+       if (getMaxMp() == 99999) {
+            finishAchievement(115);
+        }
+       if (getJob() == 900) {
+            finishAchievement(116);
+        } 
+       /*if (getGMLevel() == 1) {
+            finishAchievement(117);
+        }*/
+       if (getLevel() == 250) {
+            finishAchievement(118);
+        }
+       if (getBuddyCapacity() == 100) {
+            finishAchievement(119);
+        }
+       if (getGuildContribution() >= 20) {
+            finishAchievement(140);
+        }
+       if (getGuildContribution() >= 480) {
+            finishAchievement(141);
+        }
+       if (getGuildContribution() >= 3360) {
+            finishAchievement(142);
+        }
+       if (getGuildContribution() >= 14400) {
+            finishAchievement(143);
+        } 
+        if (getGuildContribution() >= 28800) {
+            finishAchievement(144);
+        } 
+        if (getGuildContribution() >= 57600) {
+            finishAchievement(145);
+        } 
+        if (getGuildContribution() >= 115200) {
+            finishAchievement(146);
+        } 
+        if (getJQPoints() >= 1) {
+            finishAchievement(168);
+        }
+        if (getJQPoints() >= 10) {
+            finishAchievement(169);
+        }
+        if (getJQPoints() >= 30) {
+            finishAchievement(170);
+        }
+        if (getJQPoints() >= 70) {
+            finishAchievement(171);
+        }
+        if (getJQPoints() >= 120) {
+            finishAchievement(172);
+        }
+        if (getJQPoints() >= 200) {
+            finishAchievement(173);
+        }
+        if (getMesosInBank() >= 1) {
+            finishAchievement(174);
+        }
+        if (getMesosInBank() >= 10000) {
+            finishAchievement(175);
+        }
+        if (getMesosInBank() >= 100000) {
+            finishAchievement(176);
+        }
+        if (getMesosInBank() >= 1000000) {
+            finishAchievement(177);
+        }
+        if (getMesosInBank() >= 10000000) {
+            finishAchievement(178);
+        }
+        if (getMesosInBank() >= 100000000) {
+            finishAchievement(179);
+        }
+        if (getMesosInBank() >= 1000000000) {
+            finishAchievement(180);
+        }
+        if (getMesosInBank() >= 2147483647) {
+            finishAchievement(181);
+        }
+        if (getapinbank() >= 1) {
+            finishAchievement(182);
+        }
+        if (getapinbank() >= 100) {
+            finishAchievement(183);
+        }
+        if (getapinbank() >= 1000) {
+            finishAchievement(184);
+        }
+        if (getapinbank() >= 10000) {
+            finishAchievement(185);
+        }
+        if (getapinbank() >= 100000) {
+            finishAchievement(186);
+        }
+        if (getFatigue() == 200) {
+            finishAchievement(187);
+        }
+
         maxhp = Math.min(99999, Math.abs(maxhp));
         maxmp = Math.min(99999, Math.abs(maxmp));
         if (GameConstants.isDemon(job)) { //TODO: use shield instead of df per job
             maxmp = GameConstants.getMPByJob(job);
         }
+        
         final Map<MapleStat, Integer> statup = new EnumMap<>(MapleStat.class);
 
         statup.put(MapleStat.MAXHP, maxhp);
@@ -4350,7 +4586,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         statup.put(MapleStat.EXP, exp);
         statup.put(MapleStat.LEVEL, (int) level);
         updateSingleStat(MapleStat.AVAILABLESP, 0); // we don't care the value here
-
+         
         if (level <= 10) { //are this part really important? ;O
             stats.str += remainingAp;
             remainingAp = 0;
@@ -5324,19 +5560,19 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             case 1:
                 if (nxcredit + quantity < 0) {
                     if (show) {
-                        dropMessage(-1, "You have gained the max cash. No cash will be awarded.");
+                        dropMessage(-1, "You have gained the maximum Cash. Cash will not be awarded until you spend them.");
                     }
                     return;
                 }
                 if (quantity > 0) {
-                    quantity = (quantity / 2); //stuff is cheaper lol
+                    quantity = (quantity / 2); // Stuff is cheaper lol
                 }
                 nxcredit += quantity;
                 break;
             case 4:
                 if (acash + quantity < 0) {
                     if (show) {
-                        dropMessage(-1, "You have gained the max cash. No cash will be awarded.");
+                        dropMessage(-1, "You have gained the maximum Cash. Cash will not be awarded until you spend them.");
                     }
                     return;
                 }
@@ -5348,7 +5584,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             case 2:
                 if (maplepoints + quantity < 0) {
                     if (show) {
-                        dropMessage(-1, "You have gained the max maple points. No cash will be awarded.");
+                        dropMessage(-1, "You have gained the maximum Maple Points. Maple Point will not be awarded until you spend them.");
                     }
                     return;
                 }
@@ -5358,7 +5594,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 break;
         }
         if (show && quantity != 0) {
-            dropMessage(-1, "You have " + (quantity > 0 ? "gained " : "lost ") + quantity + (type == 1 ? " cash." : " maple points."));
+            dropMessage(-1, "You have " + (quantity > 0 ? "gained " : "lost ") + quantity + (type == 1 ? " cash." : " Maple Points."));
             client.getSession().write(EffectPacket.showForeignEffect(20));
         }
     }
@@ -5422,6 +5658,24 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
     public void setGM(byte level) {
         this.gmLevel = level;
+    }
+
+    public void updateReborns() {
+		reborns++;
+	}
+    public void giveReborns(int i) {
+		reborns += i;
+	}
+    public void takeReborns(int i) {
+		reborns -= i;
+	}
+
+    public void setGMLevel(int l) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setGM(int level) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public static enum FameStatus {
@@ -6213,7 +6467,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public void setPoints(int p) {
-        //Used for Donor Points
+        // Used for Donor Points
         this.points = p;
         if (this.points >= 1) {
             finishAchievement(1);
@@ -6253,7 +6507,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         return side;
     }
     
-    public void setDark() {
+    /*public void setDark() {
         //ChannelServer.
         this.side = 2;
     }
@@ -6261,7 +6515,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public void setLight() {
         //setMeso(35);
         this.side = 1;
-    }
+    }*/
     
     public long getMesosInBank() {
         return mesosInBank;
@@ -6274,14 +6528,14 @@ public void depositMesosToBank(long mesos) {
         if(getMesosInBank() >= 9000000000000L) {
             long difference = getMesosInBank() - 9000000000000L;
             this.mesosInBank = 9000000000000L;
-            dropMessage(5, "You currently have 9 trillion mesos in the bank, so you cannot deposit any more mesos.");
+            dropMessage(5, "You currently have 9 trillion mesos in the bank, so you cannot deposit anymore mesos.");
             gainMeso((int) -(mesos - difference), true);
         } else {
             gainMeso((int) -mesos, true);
-            dropMessage(5, "You have successfully deposited "+ mesos +" mesos to the bank. You now have "+ getMesosInBank() +" mesos saved.");
+            dropMessage(5, "You have successfully deposited "+ mesos +" mesos to your bank. You now have "+ getMesosInBank() +" mesos saved.");
         }
     } else {
-        dropMessage(5, "You do not have enough mesos to complete this deposit.");
+        dropMessage(5, "You do not have enough mesos to deposit to your bank.");
     }
 }
 
@@ -6290,16 +6544,14 @@ public void withdrawMesosFromBank(long mesos) {
         if(getMeso() + mesos <= Integer.MAX_VALUE) {
             this.mesosInBank -= mesos;
             gainMeso((int) mesos, true);
-            dropMessage(5, "You have successfully withdrawn "+ mesos +" mesos from the bank. You now have "+ getMesosInBank() +" mesos in the bank.");
+            dropMessage(5, "You have successfully withdrawn "+ mesos +" mesos from your bank. You now have "+ getMesosInBank() +" mesos in your bank.");
         } else {
-            dropMessage(5, "You cannot withdraw "+ mesos +" mesos or else you will go over the limit for the max mesos you can hold.");
+            dropMessage(5, "You cannot withdraw "+ mesos +" mesos or else you will go over the limit for the maximum Mesos you can hold.");
         }
     } else {
-        dropMessage(5, "You cannot withdraw "+ mesos +" from the bank. You only have "+ getMesosInBank() +" mesos saved.");
+        dropMessage(5, "The bank requires you to deposit 1 meso to your bank as a one-time deposit fee. If you have 2 mesos saved in your bank, you can only withdraw 1 meso.");
     }
-}  
-
-
+}      
 
     public int getGMlevel() {
         return gmLevel;
@@ -6415,7 +6667,7 @@ public void withdrawMesosFromBank(long mesos) {
             fairyExp = (byte) stats.equippedFairy;
         }
         if (equipped && fairyExp < stats.equippedFairy * 3 && stats.equippedFairy > 0) {
-            dropMessage(5, "The Fairy Pendant's experience points will increase to " + (fairyExp + stats.equippedFairy) + "% after one hour.");
+            dropMessage(5, "The Fairy Pendant's experience points will increase to " + (fairyExp + stats.equippedFairy) + "% after another hour.");
         }
         lastFairyTime = System.currentTimeMillis();
     }
@@ -6782,7 +7034,6 @@ public void withdrawMesosFromBank(long mesos) {
         total -= luk;
         stats.luk = (int) luk;
 
-        setRemainingAp((int) total);
         stats.recalcLocalStats(this);
         stat.put(MapleStat.STR, str);
         stat.put(MapleStat.DEX, dex);
@@ -6790,7 +7041,7 @@ public void withdrawMesosFromBank(long mesos) {
         stat.put(MapleStat.LUK, luk);
         stat.put(MapleStat.AVAILABLEAP, total);
         client.getSession().write(CWvsContext.updatePlayerStats(stat, false, this));
-    }
+    } 
 
     public Event_PyramidSubway getPyramidSubway() {
         return pyramidSubway;
@@ -8104,7 +8355,7 @@ public void withdrawMesosFromBank(long mesos) {
             }
         }
     }
-
+  
     public void attackCarte(final MapleStatEffect eff, final int oid, final int x) {
         if (x > 0) {
             lastBerserkTime += x; //lol unused variable.
@@ -8342,8 +8593,8 @@ public void withdrawMesosFromBank(long mesos) {
      */
     public int getReborns() {
         return reborns;
-    }
-
+    }  
+    
     public int getAPS() {
         return apstorage;
     }
@@ -8371,7 +8622,6 @@ public void withdrawMesosFromBank(long mesos) {
         MapleInventoryManipulator.addbyItem(client, equip);
     }
     
-    
     public void doReborn(int job) {
         if(getReborns() < 5) {
         this.reborns += 1;
@@ -8387,11 +8637,10 @@ public void withdrawMesosFromBank(long mesos) {
         updateSingleStat(MapleStat.LUK, 4);
         updateSingleStat(MapleStat.AVAILABLEAP, this.remainingAp);
         } else {
-            dropMessage(6, "You have reached 5 reborns, the maximum possible.");
+            dropMessage(6, "You have reached the maximum possible reborns (5).");
         }
-      
-    }
-
+      }
+    
     public final boolean canHold(final int itemid) {
         return getInventory(GameConstants.getInventoryType(itemid)).getNextFreeSlot() > -1;
     }
@@ -8746,7 +8995,7 @@ public void withdrawMesosFromBank(long mesos) {
                 dropMessage(0, "[Notice]: You're off to a nice start!");
                 break;
             case 7:
-                dropMessage(0, "[Notice]: Nice, you made it to the Magician town, Ellinia!");
+                dropMessage(0, "[Notice]: Nice, you made it to the Magician Town, Ellinia!");
                 break;
             case 8:
                 dropMessage(0, "[Notice]: You're making good progress.");
@@ -8755,7 +9004,7 @@ public void withdrawMesosFromBank(long mesos) {
                 dropMessage(0, "[Notice]: You are halfway there! Don't give up now!");
                 break;
             case 16:
-                dropMessage(0, "[Notice]: You made it to the Desert town of Perion!");
+                dropMessage(0, "[Notice]: You made it to the Desert Town of Perion!");
                 break;
             case 22:
                 dropMessage(0, "[Notice]: You made it to the hood, Kerning City.");
@@ -8939,14 +9188,6 @@ public void withdrawMesosFromBank(long mesos) {
         updateSingleStat(MapleStat.AVAILABLEAP, getRemainingAp(), false);
     }
 
-    public void getWelcome() {
-        getClient().getSession().write(CField.startMapEffect("Welcome to " + getClient().getChannelServer().getServerName() + "!", 5122000, true));
-        dropMessage(1, "Welcome to " + getClient().getChannelServer().getServerName() + ", " + getName() + " ! \r\nUse @npc to collect your Item Of Appreciation once you're level 10! \r\nUse @help for commands. \r\nGood luck and have fun!");
-        dropMessage(5, "Your EXP Rate will be set to " + GameConstants.getExpRate_Below10(getJob()) + "x until you reach level 10.");
-        dropMessage(5, "Use @angelic to collect your Item Of Appreciation once you're level 10! Use @help for commands. Good luck and have fun!");
-        dropMessage(1, "Use @help for additional commands.");
-    }
-
     private static final void addMedalString(final MapleCharacter c, final StringBuilder sb) {
         final Item medal = c.getInventory(MapleInventoryType.EQUIPPED).getItem((byte) -46);
         if (medal != null) { // Medal
@@ -8964,5 +9205,5 @@ public void withdrawMesosFromBank(long mesos) {
             }
             sb.append("> ");
         }
-    }
+    }   
 }
